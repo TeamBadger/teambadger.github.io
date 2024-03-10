@@ -5,22 +5,38 @@
 	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <style>
-         .hover03 figure img {
-	         -webkit-transition: .5s ease-in-out;
-	         transition: .5s ease-in-out;
-         }
-         .hover03 figure:hover img {
-	         margin-left: -20px;
-	         -webkit-transition: .5s ease-in-out;
-	         transition: .5s ease-in-out;
-         }
+         body {
+        box-sizing: border-box;
+        font-family: Consolas, monospace;
+      }
+      h1 {
+        text-align: center;
+      }
+      img {
+        max-width: 100%;
+      }
+      jb-a {
+        width: 400px;
+        margin: 0px auto;
+        position: relative
+      }
+      jb-c {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        display: none;
+      }
+      jb-a:hover jb-c {
+        display: block;
+      }
  </style>
 	<title>TeamBadger</title>
 </head>
 <body>
-<div class="hover03">
+<div class="jb-a">
 <ol>
-    <a href="About TeamBadger.html"><img src="img/text1.png" alt="text1" border="0" width="320" height="250"></a>
+    <a href="About TeamBadger.html"><img src="img/text1.png" alt="text1" border="0" width="320" height="250" class="jb-b"></a>
+    <a href="About TeamBadger.html"><img src="img/text2.png" alt="text1" border="0" width="320" height="250" class=:jb-c"></a>
     <h1><a href="Story.html">Story</a></h1>
     <h1><a href="Game.html">Game</a></h1>
     <h1><a href="Garllery.html">Gallerey</a></h1>
