@@ -87,53 +87,70 @@ body{
 	background-repeat: no-repeat;
 }
 
-h1 {
-    text-align:center;
-}
-
-div {
-    font-size: 30px;
-    text-align: center;
-}
-
-#main {
-    display: grid;
-    grid-template-columns: 3fr 1fr;
-}
-
-#main .contents {
-    background-color:#b4b8ff;
-}
-
-#main .sidebar {
-    background-color: #ffbecb;
-}
-
-footer {
-    font-size: 30px;
-    text-align: center;
-    background-color: #c2ebf9;
-}
-
-@import url(cssfile.css) screen and (min-width: 152px) and (max-width: 1024px);	
+#jb-container {
+        width: 940px;
+        margin: 10px auto;
+        padding: 20px;
+        border: 1px solid #bcbcbc;
+      }
+      #jb-header {
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 1px solid #bcbcbc;
+      }
+      #jb-content {
+        width: 580px;
+        padding: 20px;
+        margin-bottom: 20px;
+        float: left;
+        border: 1px solid #bcbcbc;
+      }
+      #jb-sidebar {
+        width: 260px;
+        padding: 20px;
+        margin-bottom: 20px;
+        float: right;
+        border: 1px solid #bcbcbc;
+      }
+      #jb-footer {
+        clear: both;
+        padding: 20px;
+        border: 1px solid #bcbcbc;
+      }
+      @media ( max-width: 480px ) {
+        #jb-container {
+          width: auto;
+        }
+        #jb-content {
+          float: none;
+          width: auto;
+        }
+        #jb-sidebar {
+          float: none;
+          width: auto;
+        }
+      }
 	
 </style>
 	<title>TeamBadger</title>
 </head>
 <body>
-	
+ <div id="jb-container">
+      <div id="jb-header">
+      </div>
+ <div id="jb-content">
+      </div>
+ <div id="jb-sidebar">
+      </div>
+ <div id="jb-footer">
+      </div>
 <a href="About TeamBadger.html" id="text-1"></a>
 <a href="Story.html" id="text-2"></a>
 <a href="Game.html" id="text-3"></a>
 <a href="Garllery.html" id="text-4"></a>
 <a href="QnA.html" id="text-5"></a>
 
-<div id="main">
-    <div class="contents">1</div>
-    <div class="sidebar">2</div>
-</div>
-<footer>3</footer>
-	    
+
     <h2>Welcome</h2>
      <p>
      under construction... <br>
