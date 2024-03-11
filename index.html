@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
 	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="main.css">
-<style>
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="cssfile.css" media="screen and (min-width: 512px) and (max-width: 1024px)" rel="stylesheet">
+
+<style type="text/css" media="screen and (min-width: 512px) and (max-width:1024px)">
 	
 a#text-1 {
 	display:inline-block;
@@ -114,15 +115,7 @@ footer {
     background-color: #c2ebf9;
 }
 
-/*미디어 뭐리!!!!!!!!!!*/
-@media (max-width:600px){ /*가로 너비가 600px 이하일 때 아래 스타일 적용*/
-    #main {
-        display: block;
-    }
-    #main .sidebar {
-        min-height: 0;
-    }
-}
+@import url(cssfile.css) screen and (min-width: 152px) and (max-width: 1024px);	
 	
 </style>
 	<title>TeamBadger</title>
