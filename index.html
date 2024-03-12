@@ -35,6 +35,8 @@
 }
 
 a#text-1 {
+	.ex-midea {
+	max-width: 100%;
 	display:inline-block;
 	width:220px;
 	height:61px;
@@ -43,7 +45,23 @@ a#text-1 {
 	position:absolute;
 	top:180px;
 	left:325px;
+
+@media (min-width: 401px) {
+.ex-midea {
+        width: 110px;
+        height: 41px;
+        background-image: url('https://ifh.cc/g/nTxwPr.png');
+      }
 }
+
+@media (min-width: 701px) {
+.ex-midea {
+        width: 1000px;
+        height: 1000px;
+        background-image: url('https://ifh.cc/g/nTxwPr.png');
+      }
+}
+
 a#text-1:hover{
   background:url('https://ifh.cc/g/vdHfP9.png') no-repeat;
 }
