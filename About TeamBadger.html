@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1000">
+    <meta name="viewport" content="width=1500">
         <title>About TeamBadger</title>
     <style>
         @font-face {
@@ -13,6 +13,13 @@
 
 
        /* 1. 기본 설정 수정 */
+       html, body {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
 body {
     background-color: black;
     color: white;
@@ -23,11 +30,11 @@ body {
     align-items: center;
     padding-top: 50px;
     
-    /* 기존 1400px에서 1700px로 변경하여 사이드바 공간 확보 */
-    width: 1000px; 
+    /* 전체 너비를 1500px로 최적화 (모바일 잘림 방지) */
+    width: 1500px; 
     margin: 0 auto; 
     position: relative;
-    overflow-x: visible; 
+    overflow-x: hidden; /* 가로 스크롤 강제 제거 */
 }
         /* --- 상단 메뉴바 --- */
         .main-menu {
@@ -65,25 +72,24 @@ body {
         }
 
     /* 1. 중앙 텍스트 박스 디자인 (사라진 줄 복구) */
+/* 중앙 박스 너비 고정 (비율 % 대신 px 사용 추천) */
 .box26 {
-    width: 85%;
-    max-width: 750px;
+    width: 750px; /* 고정 너비를 주어야 사이드바와의 간격이 일정해집니다 */
     background-color: #2b2b2b;
-    /* 양옆에 double 스타일의 줄 추가 */
     border-left: double 6px #999fad; 
     border-right: double 6px #999fad;
     padding: 60px 30px 40px 30px;
     text-align: center;
     line-height: 1.8;
     font-size: 15px;
-    margin: 0 auto; /* 중앙 정렬 */
+    margin: 0 auto;
 }
-
 
 /* 2. 사이드바 공통 설정 */
 /* 2. 사이드바 위치 고정 (fixed 대신 absolute 사용 추천) */
 /* fixed를 쓰면 모바일 확대/축소 시 사이드바가 화면에 박혀서 글자를 가릴 수 있습니다.
    배치를 완벽히 유지하려면 absolute가 더 안전합니다. */
+/* 2. 사이드바 위치 (중앙 박스에서 적절히 떨어뜨리기) */
 .side-content {
     position: absolute !important; 
     top: 250px;
@@ -91,14 +97,16 @@ body {
     flex-direction: column;
     z-index: 999;
 }
-
+/* 왼쪽 사이드바: 중앙에서 왼쪽으로 */
 .side-content.left {
-    left: -300px !important; /* PC와 동일한 위치 */
+    left: 30px !important; /* 이미지의 배치와 유사하게 조정 */
 }
 
+/* 오른쪽 사이드바: 중앙에서 오른쪽으로 */
 .side-content.right {
-    right: -300px !important; /* PC와 동일한 위치 */
+    right: 30px !important; /* 이미지의 배치와 유사하게 조정 */
 }
+
 
 /* 3. 타이틀 및 배너 이미지 설정 (이미지 선명도 유지) */
 .projects-menu-title {
