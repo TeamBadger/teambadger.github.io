@@ -2,8 +2,8 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1400", initial-scale="1.0">
-    <title>About TeamBadger</title>
+    <meta name="viewport" content="width=1700">
+        <title>About TeamBadger</title>
     <style>
         @font-face {
             font-family: 'DepartureMono-Regular';
@@ -18,17 +18,17 @@ body {
     color: white;
     font-family: 'DepartureMono-Regular', monospace;
     margin: 0;
-    /* 중앙 정렬을 위해 아래 속성들을 유지하되 너비를 고정합니다 */
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 50px;
-    width: 1400px; /* PC 레이아웃 너비 고정 */
-    margin: 0 auto; /* 화면 중앙 배치 */
+    
+    /* 기존 1400px에서 1700px로 변경하여 사이드바 공간 확보 */
+    width: 1700px; 
+    margin: 0 auto; 
     position: relative;
-    overflow-x: visible; /* 잘림 방지 */
+    overflow-x: visible; 
 }
-
         /* --- 상단 메뉴바 --- */
         .main-menu {
             margin-bottom: 80px; /* 배너가 없으므로 간격을 조금 더 넓힘 */
@@ -93,11 +93,11 @@ body {
 }
 
 .side-content.left {
-    left: -100px !important; /* PC와 동일한 위치 */
+    left: -80px !important; /* PC와 동일한 위치 */
 }
 
 .side-content.right {
-    right: -100px !important; /* PC와 동일한 위치 */
+    right: -80px !important; /* PC와 동일한 위치 */
 }
 
 /* 3. 타이틀 및 배너 이미지 설정 (이미지 선명도 유지) */
@@ -154,14 +154,12 @@ body {
 
 /* 5. 푸터 (배너와 완전히 분리하여 화면 하단 중앙 배치) */
 .copyright {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 12px;
-    color: #666;
-    background: rgba(0, 0, 0, 0.5); /* 가독성을 위한 배경 */
-    padding: 5px 10px;
+    position: relative; /* fixed에서 변경 */
+    margin-top: 50px;
+    bottom: 0;
+    left: 0;
+    transform: none;
+    text-align: center;
 }
 
 /* SNS 영역 전체를 감싸는 칸 (테두리 추가) */
