@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1400", initial-scale="1.0">
     <title>About TeamBadger</title>
     <style>
         @font-face {
@@ -11,17 +11,23 @@
             font-style: normal;
         }
 
-        /* 기본 설정 */
-        body {
-            background-color: black;
-            color: white;
-            font-family: 'DepartureMono-Regular', monospace;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* 가로 중앙 정렬 */
-            padding-top: 50px;
-        }
+
+       /* 1. 기본 설정 수정 */
+body {
+    background-color: black;
+    color: white;
+    font-family: 'DepartureMono-Regular', monospace;
+    margin: 0;
+    /* 중앙 정렬을 위해 아래 속성들을 유지하되 너비를 고정합니다 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+    width: 1400px; /* PC 레이아웃 너비 고정 */
+    margin: 0 auto; /* 화면 중앙 배치 */
+    position: relative;
+    overflow-x: visible; /* 잘림 방지 */
+}
 
         /* --- 상단 메뉴바 --- */
         .main-menu {
@@ -73,9 +79,13 @@
     margin: 0 auto; /* 중앙 정렬 */
 }
 
+
 /* 2. 사이드바 공통 설정 */
+/* 2. 사이드바 위치 고정 (fixed 대신 absolute 사용 추천) */
+/* fixed를 쓰면 모바일 확대/축소 시 사이드바가 화면에 박혀서 글자를 가릴 수 있습니다.
+   배치를 완벽히 유지하려면 absolute가 더 안전합니다. */
 .side-content {
-    position: fixed !important;
+    position: absolute !important; 
     top: 250px;
     display: flex;
     flex-direction: column;
@@ -83,11 +93,11 @@
 }
 
 .side-content.left {
-    left: 40px !important;
+    left: -100px !important; /* PC와 동일한 위치 */
 }
 
 .side-content.right {
-    right: 40px !important;
+    right: -100px !important; /* PC와 동일한 위치 */
 }
 
 /* 3. 타이틀 및 배너 이미지 설정 (이미지 선명도 유지) */
@@ -321,5 +331,4 @@
     </script>
 
 </body>
-
 </html>

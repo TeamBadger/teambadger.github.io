@@ -2,8 +2,8 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TeamBadger</title>
+    <meta name="viewport" content="width=1000">
+      <title>TeamBadger</title>
     <style>
         @font-face {
             font-family: 'DepartureMono-Regular';
@@ -13,26 +13,26 @@
 
         /* 1. 배경을 body에 직접 할당하여 레이어 최하단에 배치 */
         body {
-            margin: 0;
-            padding: 0;
-            background-color: black;
-            
-            /* 이미지가 다른 요소 뒤에 깔리게 됨 */
-            background-image: url("./images/backgroundimage.png");
-            
-            /* 스크롤 시 배경도 함께 위로 올라가도록 설정 */
-            background-attachment: scroll; 
-            background-repeat: no-repeat;
-           background-position: 35% 120px;
-            background-size:  auto; 
-            
-            
-            font-family: 'DepartureMono-Regular', monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: auto;
-                   }
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    background-image: url("./images/backgroundimage.png");
+    background-attachment: scroll; 
+    background-repeat: no-repeat;
+    background-position: center 120px; /* 배경도 중앙 기준으로 변경 */
+    background-size: auto; 
+    
+    font-family: 'DepartureMono-Regular', monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    /* --- 추가 및 수정된 부분 --- */
+    width: 1000px;      /* PC 레이아웃 기준 너비 고정 */
+    margin: 0 auto;     /* 화면 중앙 정렬 */
+    min-height: 100vh;
+    overflow-x: visible; /* 가로 잘림 방지 */
+}
         
         /* 2. 상단 배너 */
         .top-banner {
@@ -47,26 +47,28 @@
         }
 
         /* 3. 가로 메뉴바 */
-        .main-nav {
-            margin-top: 25px;
-            display: flex;
-            gap: 12px;
-            z-index: 1;
-        }
+        /* 메뉴바 가로 정렬 유지 */
+.main-nav {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: row; /* 가로 정렬 강제 고정 */
+    gap: 12px;
+    z-index: 1;
+}
         .main-nav a img {
             height: 48px;
             display: block;
         }
 
-        /* 4. 중앙 이젤(프레임) 영역 */
-        .easel-container {
-            margin-top: 50px;
-            position: relative;
-            width: 450px; 
-            display: flex;
-            justify-content: center;
-            z-index: 1;
-        }
+        /* 기존 이젤 컨테이너 유지 */
+.easel-container {
+    margin-top: 50px;
+    position: relative;
+    width: 450px; 
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+}
 
         .easel-image {
             width: 100%;
