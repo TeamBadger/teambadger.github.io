@@ -1,1 +1,324 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About TeamBadger</title>
+    <style>
+        @font-face {
+            font-family: 'DepartureMono-Regular';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2409-1@1.0/DepartureMono-Regular.woff2') format('woff2');
+            font-style: normal;
+        }
 
+        /* 기본 설정 */
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'DepartureMono-Regular', monospace;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* 가로 중앙 정렬 */
+            padding-top: 50px;
+        }
+
+        /* --- 상단 메뉴바 --- */
+        .main-menu {
+            margin-bottom: 80px; /* 배너가 없으므로 간격을 조금 더 넓힘 */
+        }
+        .main-menu ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            gap: 15px;
+        }
+        .menu-item img {
+            display: block;
+            transition: transform 0.2s;
+        }
+        .menu-item img:hover {
+            transform: translateY(-3px);
+        }
+
+        /* 2. 프로필 이미지 */
+        .profile {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #555;
+            margin-bottom: -30px; /* 박스와 겹치게 하려면 조정 */
+            z-index: 10;
+        }
+
+        .profile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    /* 1. 중앙 텍스트 박스 디자인 (사라진 줄 복구) */
+.box26 {
+    width: 85%;
+    max-width: 750px;
+    background-color: #2b2b2b;
+    /* 양옆에 double 스타일의 줄 추가 */
+    border-left: double 6px #999fad; 
+    border-right: double 6px #999fad;
+    padding: 60px 30px 40px 30px;
+    text-align: center;
+    line-height: 1.8;
+    font-size: 15px;
+    margin: 0 auto; /* 중앙 정렬 */
+}
+
+/* 2. 사이드바 공통 설정 */
+.side-content {
+    position: fixed !important;
+    top: 250px;
+    display: flex;
+    flex-direction: column;
+    z-index: 999;
+}
+
+.side-content.left {
+    left: 40px !important;
+}
+
+.side-content.right {
+    right: 40px !important;
+}
+
+/* 3. 타이틀 및 배너 이미지 설정 (이미지 선명도 유지) */
+.projects-menu-title {
+    font-family: 'DepartureMono-Regular', monospace;
+    font-size: 18px;
+    color: white;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    width: 290px; /* 배너 크기와 일치 */
+    border-bottom: 2px solid white;
+    text-align: left;
+}
+
+.banner-container img {
+    width: 290px !important;
+    height: auto;
+    border: 1px solid #fff;
+    display: block;
+    margin-bottom: 12px;
+    
+    /* 픽셀 깨짐 방지 */
+    image-rendering: pixelated;
+    
+    /* 슬라이드 애니메이션 설정 */
+    transition: transform 0.3s ease-in-out;
+}
+
+/* 4. 마우스 커서 반응 (슬라이드 효과) */
+/* 왼쪽 배너: 오른쪽으로 슬라이드 */
+.side-content.left .banner-container img:hover {
+    transform: translateX(20px);
+}
+
+/* 오른쪽 북마크: 왼쪽으로 슬라이드 */
+.side-content.right .banner-container img:hover,
+.side-content.right .empty-slot:hover {
+    transform: translateX(-20px);
+}
+
+/* 북마크 빈 슬롯 스타일 */
+.empty-slot {
+    width: 290px;
+    height: 70px;
+    border: 2px dashed #444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #444;
+    transition: transform 0.3s ease-in-out;
+ 
+}
+
+/* 5. 푸터 (배너와 완전히 분리하여 화면 하단 중앙 배치) */
+.copyright {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: #666;
+    background: rgba(0, 0, 0, 0.5); /* 가독성을 위한 배경 */
+    padding: 5px 10px;
+}
+
+/* SNS 영역 전체를 감싸는 칸 (테두리 추가) */
+.sns-container-box {
+    width: 290px;
+    margin-top: 50px;
+    background-color: #111; /* 배경을 살짝 더 어둡게 */
+    border: 1px solid #444; /* 기본 테두리 */
+    padding: 20px 15px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* 상단 라벨 스타일 (▼ MY BANNERS와 동일한 스타일) */
+.sns-box-title {
+    font-family: 'DepartureMono-Regular', monospace;
+    font-size: 16px;
+    color: white;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid white; /* 흰색 하단 바 */
+    text-align: left;
+    width: 100%;
+}
+
+/* 개별 정보 행 */
+.info-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+/* 왼쪽 라벨 (회색 알약 디자인을 팀바둑이 스타일로 변형) */
+.info-tag {
+    background-color: #333;
+    color: #999fad;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 4px;
+    min-width: 65px;
+    text-align: center;
+    border: 1px solid #444;
+}
+
+/* 오른쪽 내용 및 점선 */
+.info-value {
+    flex-grow: 1;
+    color: #eee;
+    font-size: 14px;
+    padding-bottom: 4px;
+    border-bottom: 1px dotted #555; /* 하단 점선 */
+    display: flex;
+    gap: 10px;
+}
+
+/* SNS 아이콘 호버 효과 */
+.sns-link-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.2s ease;
+    filter: brightness(0.8);
+}
+
+.sns-link-icon:hover {
+    transform: scale(1.2);
+    filter: brightness(1.2);
+}
+
+    </style>
+</head>
+<body>
+
+    <nav class="main-menu">
+        <ul>
+            <li><a href="About TeamBadger.html" class="menu-item">
+                <img src="./images/text1.png" alt="About" onmouseover="this.src='./images/text2.png'" onmouseout="this.src='./images/text1.png'">
+            </a></li>
+            <li><a href="Story.html" class="menu-item">
+                <img src="./images/text3.png" alt="Story" onmouseover="this.src='./images/text4.png'" onmouseout="this.src='./images/text3.png'">
+            </a></li>
+            <li><a href="Game.html" class="menu-item">
+                <img src="./images/text5.png" alt="Game" onmouseover="this.src='./images/text6.png'" onmouseout="this.src='./images/text5.png'">
+            </a></li>
+            <li><a href="Gallery.html" class="menu-item">
+                <img src="./images/text7.png" alt="Gallery" onmouseover="this.src='./images/text8.png'" onmouseout="this.src='./images/text7.png'">
+            </a></li>
+            <li><a href="QnA.html" class="menu-item">
+                <img src="./images/text9.png" alt="QnA" onmouseover="this.src='./images/text10.png'" onmouseout="this.src='./images/text9.png'">
+            </a></li>
+        </ul>
+    </nav>
+
+    <div class="profile">
+        <img src="./images/12131.png" alt="Profile">
+    </div>
+
+    <div class="box26">
+        <b>Web Master</b> | Kokumotsu or motsu<br>
+        <b>Pronouns</b> | They / Them<br>
+        <b>Birth</b> | 2005.06.16<br><br>
+        
+        This is kokumotsu's personal WebSite<br>
+        Game development team<br>
+        Planning, Art, Animation, Compose, Development | kokumotsu<br>
+        Compose | salay<br><br>
+        
+        I'm a creator of OC and I work mainly on game development or art<br>
+        I usually like female characters I usually draw non-human things or I like dragons<br><br>
+        
+        <span style="font-size: 0.9em; color: #ccc;">
+            Please don't tell me that I look like anyone because I've been cyberbullied about <br>
+            character design when I was a kid I don't have any good memories
+        </span>
+    </div>
+
+<div class="side-content left">
+    <div class="projects-menu-title">▼ MY BANNERS</div>
+    <div class="banner-container">
+        <a href="https://teambadger.neocities.org" target="_blank">
+            <img src="./images/banner.png" alt="banner">
+        </a>
+        <a href="https://teambadger.neocities.org" target="_blank">
+            <img src="./images/banner2.png" alt="banner">
+        </a>
+    </div>
+
+    <div class="sns-container-box">
+        <div class="sns-box-title">▼ SITE INFO</div>
+
+        <div class="info-row">
+            <div class="info-tag">Author</div>
+            <div class="info-value">kokumotsu</div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-tag">UPDATE</div>
+            <div class="info-value">2025.01.05</div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-tag">SNS</div>
+            <div class="info-value">
+                <a href="https://x.com/kkmotsu" target="_blank"><img src="./images/x_icon.png" class="sns-link-icon" alt="X"></a>
+                <a href="BS_링크" target="_blank"><img src="./images/tumblr_icon.png" class="sns-link-icon" alt="TUMBLR"></a>
+                <a href="https://toyhou.se/Kokumotsu" target="_blank"><img src="./images/th_icon.png" class="sns-link-icon" alt="TH"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="side-content right">
+    <div class="projects-menu-title">▼ BOOKMARK</div>
+    <div class="banner-container">
+        <div class="empty-slot">Coming Soon...</div>
+    </div>
+</div>
+    </div>
+        <footer class="copyright">
+            &copy; 2025-<span id="current-year"></span> kokumotsu
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById("current-year").textContent = new Date().getFullYear();
+    </script>
+
+</body>
+</html>

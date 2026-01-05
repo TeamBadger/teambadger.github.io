@@ -1,108 +1,165 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamBadger</title>
+    <style>
+        @font-face {
+            font-family: 'DepartureMono-Regular';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2409-1@1.0/DepartureMono-Regular.woff2') format('woff2');
+            font-style: normal;
+        }
 
-<style>
-	
-a#text-1 {
-   display:inline-block;
-   width:220px;
-   height:61px;
-   margin:5px;
-  background:url('https://ifh.cc/g/nTxwPr.png') no-repeat;
-   position:absolute;
-   top:180px;
-   left:325px;
-}
-a#text-1:hover{
-  background:url('https://ifh.cc/g/vdHfP9.png') no-repeat;
-}
-	
-a#text-2 {
-	display:inline-block;
-	width:220px;
-	height:61px;
-	margin:5px;
-  background:url('https://ifh.cc/g/ZDwGpB.png') no-repeat;
-	position:absolute;
-	top:180px;
-	left:575px;
-}
+        /* 1. 배경을 body에 직접 할당하여 레이어 최하단에 배치 */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            
+            /* 이미지가 다른 요소 뒤에 깔리게 됨 */
+            background-image: url("./images/backgroundimage.png");
+            
+            /* 스크롤 시 배경도 함께 위로 올라가도록 설정 */
+            background-attachment: scroll; 
+            background-repeat: no-repeat;
+           background-position: 35% 120px;
+            background-size:  auto; 
+            
+            
+            font-family: 'DepartureMono-Regular', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: auto;
+                   }
+        
+        /* 2. 상단 배너 */
+        .top-banner {
+            margin-top: 60px;
+            width: 600px;
+            z-index: 1; /* 배경보다 위에 오도록 설정 */
+        }
+        .top-banner img {
+            width: 100%;
+            display: block;
+            image-rendering: pixelated;
+        }
 
-a#text-2:hover{
-  background:url('https://ifh.cc/g/PCvpSp.png') no-repeat;
-}
-	
-a#text-3 {
-	display:inline-block;
-	width:220px;
-	height:61px;
-	margin:5px;
-  background:url('https://ifh.cc/g/LySjsd.png') no-repeat;
-	position:absolute;
-	top:180px;
-	left:825px;
-}
+        /* 3. 가로 메뉴바 */
+        .main-nav {
+            margin-top: 25px;
+            display: flex;
+            gap: 12px;
+            z-index: 1;
+        }
+        .main-nav a img {
+            height: 48px;
+            display: block;
+        }
 
-a#text-3:hover{
-  background:url('https://ifh.cc/g/vdA5QH.png') no-repeat;
-}
-	
-a#text-4 {
-	display:inline-block;
-	width:220px;
-	height:61px;
-	margin:5px;
-  background:url('https://ifh.cc/g/npXW6c.png') no-repeat;
-	position:absolute;
-	top:180px;
-	left:1075px;
-}
+        /* 4. 중앙 이젤(프레임) 영역 */
+        .easel-container {
+            margin-top: 50px;
+            position: relative;
+            width: 450px; 
+            display: flex;
+            justify-content: center;
+            z-index: 1;
+        }
 
-a#text-4:hover{
-  background:url('https://ifh.cc/g/0GojVQ.png') no-repeat;
-}
+        .easel-image {
+            width: 100%;
+            display: block;
+            image-rendering: pixelated;
+        }
 
-a#text-5 {
-	display:inline-block;
-	width:220px;
-	height:61px;
-	margin:5px;
-  background:url('https://ifh.cc/g/GXaZag.png') no-repeat;
-	position:absolute;
-	top:180px;
-	left:1325px;
-}
+        /* 메모 칸 정밀 정렬 */
+        .notepad-area {
+            position: absolute;
+            top: 76px;
+            left: 50%;
+            transform: translateX(-50%);
+            
+            width: 300px;
+            height: 368px;
+            
+            background-color: white;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            
+            font-family: 'DepartureMono-Regular', sans-serif;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+            z-index: 2; /* 이젤 이미지보다 위에 위치 */
+        }
 
-a#text-5:hover{
-  background:url('https://ifh.cc/g/W4VsQ3.png') no-repeat;
-}
-body{
-	background-image:url('https://ifh.cc/g/8XTS02.png');
-	background-repeat: no-repeat;
-}
+        .notepad-title {
+            font-size: 18px;
+            text-align: center;
+            border-bottom: 2px solid #000;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+        }
 
+        .update-item {
+            margin-bottom: 15px;
+            border-bottom: 1px dotted #ccc;
+            padding-bottom: 8px;
+        }
 
-</style>
-	<title>TeamBadger</title>
+        .footer {
+            margin-top: 100px;
+            padding-bottom: 50px;
+            color: #555;
+            font-size: 11px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .notepad-area::-webkit-scrollbar { width: 5px; }
+        .notepad-area::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+    </style>
 </head>
 <body>
-	<div class="ex-midea"></div>
-		
 
-<a href="About TeamBadger.html" id="text-1"></a>
-<a href="Story.html" id="text-2"></a>
-<a href="Game.html" id="text-3"></a>
-<a href="Gallery.html" id="text-4"></a>
-<a href="QnA.html" id="text-5"></a>
+    <div class="top-banner">
+        <img src="./images/12173.png" alt="Main Banner">
+    </div>
 
+    <nav class="main-nav">
+        <a href="About TeamBadger.html"><img src="./images/text1.png" onmouseover="this.src='./images/text2.png'" onmouseout="this.src='./images/text1.png'"></a>
+        <a href="Story.html"><img src="./images/text3.png" onmouseover="this.src='./images/text4.png'" onmouseout="this.src='./images/text3.png'"></a>
+        <a href="Game.html"><img src="./images/text5.png" onmouseover="this.src='./images/text6.png'" onmouseout="this.src='./images/text5.png'"></a>
+        <a href="Gallery.html"><img src="./images/text7.png" onmouseover="this.src='./images/text8.png'" onmouseout="this.src='./images/text7.png'"></a>
+        <a href="QnA.html"><img src="./images/text9.png" onmouseover="this.src='./images/text10.png'" onmouseout="this.src='./images/text9.png'"></a>
+    </nav>
 
-    <h2>Welcome</h2>
-     <p>
-     under construction... <br>
-     </p>
+    <div class="easel-container">
+        <img src="./images/frame1.png" alt="Update Easel" class="easel-image">
+        
+        <div class="notepad-area">
+            <div class="notepad-title">:: UPDATE ::</div>
+            
+            <div class="update-item">
+                <strong>2026.01.05</strong><br>
+                - Update all other pages except the story,game page<br>
+                
+            </div>
+            
+            <div style="text-align: center; color: #999;">soon !</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        &copy; 2025-<span id="year"></span> kokumotsu
+    </div>
+
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+
 </body>
 </html>

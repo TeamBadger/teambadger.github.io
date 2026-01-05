@@ -1,1 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - TeamBadger</title>
+    <style>
+        @font-face {
+            font-family: 'DepartureMono-Regular';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2409-1@1.0/DepartureMono-Regular.woff2') format('woff2');
+            font-style: normal;
+        }
 
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'DepartureMono-Regular', monospace;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 50px;
+            min-height: 100vh;
+        }
+
+        /* --- 상단 메뉴바 --- */
+        .main-menu {
+            margin-bottom: 60px;
+        }
+        .main-menu ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            gap: 15px;
+        }
+        .menu-item img {
+            display: block;
+            transition: transform 0.2s;
+        }
+        .menu-item img:hover {
+            transform: translateY(-3px);
+        }
+
+        /* --- 메인 갤러리 박스 (이중 테두리 디자인) --- */
+        .gallery-wrapper {
+            width: 90%;
+            max-width: 1000px;
+            background-color: #1a1a1a;
+            border-left: double 6px #999fad;
+            border-right: double 6px #999fad;
+            padding: 60px 50px;
+            margin-bottom: 80px;
+            box-sizing: border-box;
+        }
+
+        /* --- 업그레이드된 라벨 디자인 --- */
+        .gallery-header {
+            text-align: center;
+            font-size: 22px;
+            margin-bottom: 60px;
+            letter-spacing: 4px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* 라벨 양옆의 라인 장식 */
+        .gallery-header::before,
+        .gallery-header::after {
+            content: "";
+            height: 2px;
+            flex-grow: 1;
+            background: linear-gradient(to right, transparent, #999fad);
+        }
+        .gallery-header::after {
+            background: linear-gradient(to left, transparent, #999fad);
+        }
+
+        /* 라벨 내부 박스 */
+        .header-tag {
+            background-color: #000;
+            padding: 10px 25px;
+            border: 1px solid #999fad;
+            box-shadow: 4px 4px 0px #000;
+            text-transform: uppercase;
+        }
+
+        /* --- 갤러리 그리드 --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 30px;
+        }
+
+        .gallery-item {
+            background-color: #000;
+            border: 1px solid #444;
+            padding: 12px;
+            transition: all 0.3s ease-in-out;
+            position: relative;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px);
+            border-color: #999fad;
+            box-shadow: 0 10px 20px rgba(153, 159, 173, 0.15);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            image-rendering: pixelated;
+            margin-bottom: 12px;
+            border: 1px solid #222;
+        }
+
+        .item-info {
+            font-size: 13px;
+            color: #999fad;
+            text-align: center;
+            border-top: 1px dotted #333;
+            padding-top: 10px;
+            letter-spacing: 1px;
+        }
+
+        /* 푸터 */
+        .copyright {
+            margin-top: auto;
+            padding: 40px 0;
+            font-size: 12px;
+            color: #555;
+            letter-spacing: 1px;
+        }
+
+        /* 스크롤바 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #999fad; border-radius: 4px; }
+/* --- 이미지 확대 모달 스타일 --- */
+.modal {
+    display: none; /* 기본적으로는 숨김 */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* 배경을 어둡게 */
+    cursor: zoom-out; /* 클릭하면 나간다는 표시 */
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    box-shadow: 0 0 20px rgba(153, 159, 173, 0.3);
+    border: 2px solid #999fad;
+    image-rendering: pixelated; /* 픽셀 아트 선명도 유지 */
+    cursor: default; /* 이미지는 클릭해도 반응 없게 */
+}
+
+/* 모달이 나타날 때 부드러운 애니메이션 */
+.modal.active {
+    display: flex;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}   
+   </style>
+</head>
+<body>
+
+    <nav class="main-menu">
+        <ul>
+            <li><a href="About TeamBadger.html" class="menu-item"><img src="./images/text1.png" alt="About" onmouseover="this.src='./images/text2.png'" onmouseout="this.src='./images/text1.png'"></a></li>
+            <li><a href="Story.html" class="menu-item"><img src="./images/text3.png" alt="Story" onmouseover="this.src='./images/text4.png'" onmouseout="this.src='./images/text3.png'"></a></li>
+            <li><a href="Game.html" class="menu-item"><img src="./images/text5.png" alt="Game" onmouseover="this.src='./images/text6.png'" onmouseout="this.src='./images/text5.png'"></a></li>
+            <li><a href="Gallery.html" class="menu-item"><img src="./images/text7.png" alt="Gallery" onmouseover="this.src='./images/text8.png'" onmouseout="this.src='./images/text7.png'"></a></li>
+            <li><a href="QnA.html" class="menu-item"><img src="./images/text9.png" alt="QnA" onmouseover="this.src='./images/text10.png'" onmouseout="this.src='./images/text9.png'"></a></li>
+        </ul>
+    </nav>
+
+    <div class="gallery-wrapper">
+        <div class="gallery-header">
+            <span class="header-tag">▼ GALLERY ARCHIVE</span>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="./images/art1.png" alt="Artwork 1">
+                <div class="item-info">2025/12/18</div>
+            </div>
+            <div class="gallery-item">
+                <img src="./images/art2.png" alt="Artwork 2">
+                <div class="item-info">2025/12/19</div>
+            </div>
+            <div class="gallery-item">
+                <img src="./images/art3.png" alt="Artwork 3">
+                <div class="item-info">2025/12/24</div>
+            </div>
+            <div class="gallery-item">
+                <img src="./images/art4.png" alt="Artwork 4">
+                <div class="item-info">2025/12/24</div>
+            </div>
+            <div class="gallery-item">
+                <img src="./images/art5.png" alt="Artwork 5">
+                <div class="item-info">none</div>
+            </div>
+            <div class="gallery-item">
+                <img src="./images/art6.png" alt="Artwork 6">
+                <div class="item-info">none</div>
+            </div>
+        </div>
+    </div>
+    <div id="imageModal" class="modal" onclick="closeModal()">
+    <img class="modal-content" id="fullImage" onclick="event.stopPropagation()">
+</div>
+
+    <footer class="copyright">
+        &copy; 2025-<span id="current-year"></span> kokumotsu
+    </footer>
+
+    <script>
+    // 1. 자동 연도 업데이트
+    document.getElementById("current-year").textContent = new Date().getFullYear();
+
+    // 2. 이미지 확대 기능
+    const modal = document.getElementById("imageModal");
+    const fullImg = document.getElementById("fullImage");
+
+    // 모든 갤러리 이미지에 클릭 이벤트 추가
+    document.querySelectorAll('.gallery-item img').forEach(img => {
+        img.onclick = function() {
+            modal.classList.add('active');
+            fullImg.src = this.src; // 클릭한 이미지 경로를 모달에 복사
+        }
+    });
+
+    // 모달 닫기 기능
+    function closeModal() {
+        modal.classList.remove('active');
+    }
+
+    // ESC 키 누르면 닫히는 센스 추가
+    window.onkeydown = function(event) {
+        if (event.keyCode === 27) {
+            closeModal();
+        }
+    };
+    </script>
+
+</body>
+
+</html>
