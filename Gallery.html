@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1200">
     <title>Gallery - TeamBadger</title>
     <style>
         @font-face {
@@ -10,29 +10,41 @@
             src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2409-1@1.0/DepartureMono-Regular.woff2') format('woff2');
             font-style: normal;
         }
+html, body {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+       body {
+    background-color: black;
+    color: white;
+    font-family: 'DepartureMono-Regular', monospace;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+    min-height: 100vh;
 
-        body {
-            background-color: black;
-            color: white;
-            font-family: 'DepartureMono-Regular', monospace;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 50px;
-            min-height: 100vh;
-        }
-
+    /* --- 추가 및 수정된 부분 --- */
+    width: 1200px;      /* PC 레이아웃 기준 너비 고정 */
+    margin: 0 auto;     /* 화면 중앙 정렬 */
+    overflow-x: hidden; /* 가로 스크롤바 강제 제거 */
+}
         /* --- 상단 메뉴바 --- */
         .main-menu {
             margin-bottom: 60px;
         }
-        .main-menu ul {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            gap: 15px;
-        }
+        /* 3. 메뉴바 가로 정렬 강제 */
+.main-menu ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: row; /* 모바일에서 세로로 변하지 않게 고정 */
+    gap: 15px;
+}
         .menu-item img {
             display: block;
             transition: transform 0.2s;
@@ -43,15 +55,14 @@
 
         /* --- 메인 갤러리 박스 (이중 테두리 디자인) --- */
         .gallery-wrapper {
-            width: 90%;
-            max-width: 1000px;
-            background-color: #1a1a1a;
-            border-left: double 6px #999fad;
-            border-right: double 6px #999fad;
-            padding: 60px 50px;
-            margin-bottom: 80px;
-            box-sizing: border-box;
-        }
+    width: 1000px; /* 1200px 안에서 안정적으로 배치 */
+    background-color: #1a1a1a;
+    border-left: double 6px #999fad;
+    border-right: double 6px #999fad;
+    padding: 60px 50px;
+    margin-bottom: 80px;
+    box-sizing: border-box;
+}
 
         /* --- 업그레이드된 라벨 디자인 --- */
         .gallery-header {
