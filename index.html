@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1000">
-      <title>TeamBadger</title>
+    <title>TeamBadger</title>
     <style>
         @font-face {
             font-family: 'DepartureMono-Regular';
@@ -11,118 +11,146 @@
             font-style: normal;
         }
 
-        /* 1. 배경을 body에 직접 할당하여 레이어 최하단에 배치 */
-        body {
-    margin: 0;
-    padding: 0;
-    background-color: black;
-    background-image: url("./images/backgroundimage.png");
-    background-attachment: scroll; 
-    background-repeat: no-repeat;
-    background-position: center 120px; /* 배경도 중앙 기준으로 변경 */
-    background-size: auto; 
-    
+body {
+    margin: 0; padding: 0; 
+    background-color: #000000; /* rgb(0,0,0) 대신 확실한 헥사코드 사용 */
     font-family: 'DepartureMono-Regular', monospace;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
-    /* --- 추가 및 수정된 부분 --- */
-    width: 1000px;      /* PC 레이아웃 기준 너비 고정 */
-    margin: 0 auto;     /* 화면 중앙 정렬 */
-    min-height: 100vh;
-    overflow-x: visible; /* 가로 잘림 방지 */
+    display: flex; flex-direction: column; align-items: center;
+    width: 1000px; margin: 0 auto; min-height: 100vh; overflow-x: visible;
 }
         
-        /* 2. 상단 배너 */
-        .top-banner {
-            margin-top: 60px;
-            width: 600px;
-            z-index: 1; /* 배경보다 위에 오도록 설정 */
-        }
-        .top-banner img {
-            width: 100%;
-            display: block;
-            image-rendering: pixelated;
-        }
+        /* 상단 배너 및 메뉴 */
+        .top-banner { margin-top: 60px; width: 600px; z-index: 5; }
+        .top-banner img { width: 100%; display: block; image-rendering: pixelated; }
+        .main-nav { margin-top: 25px; display: flex; gap: 12px; z-index: 5; }
+        .main-nav a img { height: 48px; display: block; }
 
-        /* 3. 가로 메뉴바 */
-        /* 메뉴바 가로 정렬 유지 */
-.main-nav {
-    margin-top: 25px;
-    display: flex;
-    flex-direction: row; /* 가로 정렬 강제 고정 */
-    gap: 12px;
-    z-index: 1;
-}
-        .main-nav a img {
-            height: 48px;
-            display: block;
+        .easel-container {
+            margin-top: 50px; position: relative; width: 450px; 
+            display: flex; justify-content: center; z-index: 2; 
         }
-
-        /* 기존 이젤 컨테이너 유지 */
-.easel-container {
-    margin-top: 50px;
-    position: relative;
-    width: 450px; 
-    display: flex;
-    justify-content: center;
-    z-index: 1;
-}
 
         .easel-image {
-            width: 100%;
-            display: block;
-            image-rendering: pixelated;
+            width: 100%; display: block; image-rendering: pixelated;
+            position: relative; z-index: 11; pointer-events: none;
         }
 
-        /* 메모 칸 정밀 정렬 */
         .notepad-area {
+            position: absolute; top: 76px; left: 50%; transform: translateX(-50%);
+            width: 300px; height: 368px; background-color: white; padding: 20px;
+            box-sizing: border-box; overflow-y: auto; z-index: 12;
+        }
+        /* 메모장 내부 제목 스타일 */
+.notepad-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 5px;
+}
+
+/* 업데이트 항목 스타일 */
+.update-item {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+    word-break: break-all; /* 영문이 영역 밖으로 나가는 것 방지 */
+}
+
+.update-item strong {
+    display: block;
+    font-size: 15px;
+    color: #000;
+    margin-bottom: 4px;
+}
+
+/* 메모장 스크롤바 디자인 (선택 사항) */
+.notepad-area::-webkit-scrollbar {
+    width: 6px;
+}
+.notepad-area::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+        /* [수정] 캐릭터 영역: 이동 애니메이션 삭제, 페이드 효과만 유지 */
+        .character-side {
             position: absolute;
-            top: 76px;
-            left: 50%;
-            transform: translateX(-50%);
-            
-            width: 300px;
-            height: 368px;
-            
-            background-color: white;
-            padding: 20px;
-            box-sizing: border-box;
-            overflow-y: auto;
-            
-            font-family: 'DepartureMono-Regular', sans-serif;
-            font-size: 14px;
-            color: #333;
-            line-height: 1.6;
-            z-index: 2; /* 이젤 이미지보다 위에 위치 */
+            right: -460px; 
+            bottom: -48px;
+            width: 500px;   
+            z-index: 10; 
+            cursor: pointer;
+            display: block;
+            /* 투명도 변화만 부드럽게 설정 */
+            transition: opacity 0.5s ease-in-out;
+            opacity: 1;
         }
 
-        .notepad-title {
-            font-size: 18px;
-            text-align: center;
-            border-bottom: 2px solid #000;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
+        .character-side.is-active {
+            cursor: default;
+            pointer-events: none;
         }
 
-        .update-item {
-            margin-bottom: 15px;
-            border-bottom: 1px dotted #ccc;
-            padding-bottom: 8px;
+#charImg {
+    width: 100%; 
+    height: auto; 
+    display: block;
+    image-rendering: pixelated;
+    image-rendering: -webkit-optimize-contrast;
+    
+    /* 검은색 배경을 제거하되 너무 밝지 않게 조절 */
+    mix-blend-mode: screen; 
+    
+    /* brightness를 1보다 낮게 설정하여 명도를 낮춥니다 */
+    filter: brightness(0.85) contrast(1.1); 
+}
+
+/* 깨진 이미지 아이콘 숨기기 */
+img:not([src]), img[src=""] {
+    visibility: hidden;
+}
+
+ /* 쯔꾸르 스타일 말풍선 수정 */
+.speech-bubble {
+    position: absolute;
+    bottom: 70px; 
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(10, 10, 20, 0.9);
+    border: 3px solid white;
+    outline: 2px solid black;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-family: 'DepartureMono-Regular', monospace;
+    font-size: 16px;
+    color: white;
+    text-shadow: 2px 2px 0px #000;
+
+    /* [핵심 수정 사항] */
+    white-space: pre-wrap;    /* 띄어쓰기 유지 및 자동 줄바꿈 허용 */
+    word-break: break-word;   /* 너무 긴 단어는 말풍선 경계에서 자름 */
+    max-width: 280px;         /* 말풍선의 최대 너비 제한 */
+    line-height: 1.4;         /* 줄 간격 조절로 가독성 향상 */
+    
+    display: none; 
+    z-index: 100;
+}
+
+        .speech-bubble.done::after {
+            content: "▼";
+            position: absolute; bottom: 2px; right: 8px;
+            font-size: 10px; animation: blink 0.6s infinite;
         }
 
-        .footer {
-            margin-top: 100px;
-            padding-bottom: 50px;
-            color: #555;
-            font-size: 11px;
-            text-align: center;
-            z-index: 1;
+        @keyframes blink {
+            0%, 100% { opacity: 1; transform: translateY(0); }
+            50% { opacity: 0; transform: translateY(2px); }
         }
 
-        .notepad-area::-webkit-scrollbar { width: 5px; }
-        .notepad-area::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+        .footer { margin-top: 100px; padding-bottom: 50px; color: #555; font-size: 11px; text-align: center; }
     </style>
 </head>
 <body>
@@ -139,29 +167,112 @@
         <a href="QnA.html"><img src="./images/text9.png" onmouseover="this.src='./images/text10.png'" onmouseout="this.src='./images/text9.png'"></a>
     </nav>
 
-    <div class="easel-container">
-        <img src="./images/frame1.png" alt="Update Easel" class="easel-image">
+   <div class="easel-container">
+    <img src="./images/frame1.png" class="easel-image">
+    
+    <div class="notepad-area">
+        <div class="notepad-title">:: UPDATE ::</div>
         
-        <div class="notepad-area">
-            <div class="notepad-title">:: UPDATE ::</div>
-            
-            <div class="update-item">
-                <strong>2026.01.05</strong><br>
-                - Update all other pages except the story,game page<br>
-                
-            </div>
-            
-            <div style="text-align: center; color: #999;">soon !</div>
+        <div class="update-item">
+            <strong>2026.01.05</strong>
+            - Update all other pages except the story, game page
+        </div>
+
+        <hr style="border: 0; border-top: 1px dashed #ccc; margin: 15px 0;">
+
+        <div class="update-item">
+            <strong>2026.01.13</strong>
+            -
+        </div>
+
+        <div style="text-align: center; color: #999; font-size: 12px;">
+            UPDATE SOON !
         </div>
     </div>
+
+    <div class="character-side" id="charContainer" onclick="startInteraction()">
+        <div id="speechBubble" class="speech-bubble"></div>
+        <img id="charImg" src="./images/애니메이션2.gif" alt="" onerror="this.style.display='none'">
+        <img src="./images/shadow.png" style="position:absolute; bottom:0; left:0; width:100%; z-index:-1; pointer-events:none;" onerror="this.style.opacity='0'">
+    </div>
+</div>
+
+    <div style="display: flex; justify-content: center; margin: 50px 0; z-index: 5; position: relative;">
+        <div style="background-color: white; border: 4px solid black; padding: 5px; box-shadow: 6px 6px 0px #333; display: inline-flex; align-items: center;">
+            <div style="background-color: black; color: white; padding: 8px 15px; font-size: 14px; font-weight: bold;">VISITORS</div>
+            <div style="color: black; padding: 0 20px; font-size: 18px; font-weight: 900;" id="visit-count">0000</div>
+        </div>
+    </div>
+
+<script>
+    let typingInterval;
+    const bubble = document.getElementById('speechBubble');
+    const imgElement = document.getElementById('charImg');
+    const container = document.getElementById('charContainer');
+
+    const randomMessages = 
+    ["welcome!","I love cats! Do you love cats,too?","Akira! Alice likes Akira!","I made this cat doll! Isn't it lovely!?"]
+
+    function typeWriter(text, element) {
+        let i = 0;
+        element.innerText = "";
+        element.classList.remove('done');
+        clearInterval(typingInterval);
+        typingInterval = setInterval(() => {
+            if (i < text.length) {
+                element.innerText += text.charAt(i);
+                i++;
+            } else {
+                clearInterval(typingInterval);
+                element.classList.add('done');
+            }
+        }, 50);
+    }
+
+    function startInteraction() {
+    container.style.opacity = "0";
+
+    setTimeout(() => {
+        imgElement.src = "./images/애니메이션3.gif";
+        
+        // [위치 수정 코드 추가] 
+        // 애니메이션3일 때만 위치를 살짝 옮기고 싶다면 아래 수치를 조절하세요.
+        container.style.right = "-450px"; // 기존 -460px에서 변경
+        container.style.bottom = "-14px"; // 기존 -48px에서 변경
+        container.style.width = "490px";
+
+        container.style.opacity = "1";
+        container.classList.add('is-active'); 
+
+        const message = randomMessages[Math.floor(Math.random() * randomMessages.length)];
+        bubble.style.display = 'block';
+        typeWriter(message, bubble);
+    }, 500);
+
+    setTimeout(resetToNormal, 4500);
+}
+
+function resetToNormal() {
+    bubble.style.display = 'none';
+    container.style.opacity = "0";
+
+    setTimeout(() => {
+        imgElement.src = "./images/애니메이션2.gif";
+        
+        // [원래 위치로 복구]
+        container.style.right = "-460px"; 
+        container.style.bottom = "-48px";
+
+        container.style.opacity = "1";
+        container.classList.remove('is-active'); 
+    }, 500);
+}
+</script>
 
     <div class="footer">
         &copy; 2025-<span id="year"></span> kokumotsu
     </div>
-
-    <script>
-        document.getElementById("year").textContent = new Date().getFullYear();
-    </script>
+    <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 
 </body>
 </html>
