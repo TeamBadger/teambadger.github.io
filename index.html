@@ -268,6 +268,26 @@ function resetToNormal() {
         container.classList.remove('is-active'); 
     }, 500);
 }
+// 페이지 로드 시 실행
+    window.onload = function() {
+        // 1. 기존 카운트 가져오기 (없으면 0)
+        let count = localStorage.getItem('visitCount');
+        
+        if (count === null) {
+            count = 1; // 처음 방문 시
+        } else {
+            count = parseInt(count) + 1; // 재방문 시 +1
+        }
+
+        // 2. 새로운 카운트 저장
+        localStorage.setItem('visitCount', count);
+
+        // 3. 화면에 표시 (4자리 숫자로 포맷팅: 예 0005)
+        const countDisplay = document.getElementById('visit-count');
+        countDisplay.innerText = count.toString().padStart(4, '0');
+    };
+
+
 </script>
 
     <div class="footer">
