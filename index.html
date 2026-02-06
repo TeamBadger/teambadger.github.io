@@ -18,7 +18,145 @@ body {
     display: flex; flex-direction: column; align-items: center;
     width: 1000px; margin: 0 auto; min-height: 100vh; overflow-x: visible;
 }
-        
+/* 기본 커서 숨기기 */
+* {
+    cursor: none !important;
+}
+.custom-cursor {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 32px; 
+    height: 32px;
+    background-image: url('./images/mousecursor.png'); /* 경로 확인 */
+    background-size: contain;
+    background-repeat: no-repeat;
+    pointer-events: none; 
+    z-index: 10000;
+    /* 추가: 처음에 안 보이게 하려면 opacity: 0; 나중에 JS로 위치 잡히면 1로 변경 */
+    image-rendering: pixelated;
+}
+        /* 파티클 기본 스타일 */
+.particle {
+    position: fixed;
+    width: 8px; /* 기본 크기 */
+    height: 8px;
+    background-color: #FFFFFF;
+    border-radius: 50%; /* 원형 */
+    pointer-events: none;
+    z-index: 9999;
+    
+    /* 초기 상태: 생성되자마자 눈에 보이도록 opacity 1, 크기는 크게 */
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.5); 
+    
+    /* 크기와 위치 변화가 동시에 일어나도록 설정 */
+    transition: transform 0.8s cubic-bezier(0.1, 0.5, 0.3, 1), opacity 0.8s ease-out;
+}
+/* 암전 레이어 스타일 */
+.blackout-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: #000000;
+    z-index: 100000; /* 글리치보다 더 위에 */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* 암전 활성화 상태 */
+.blackout-active .blackout-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+/* 글리치 오버레이: 전체적인 붉은 톤 설정 */
+.glitch-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: rgba(255, 0, 0, 0.15); /* 화면을 붉게 물들임 */
+    pointer-events: none;
+    z-index: 99999;
+    opacity: 0;
+    overflow: hidden;
+    mix-blend-mode: hard-light; /* 색감을 더 강렬하게 */
+}
+
+.glitch-active .glitch-overlay {
+    opacity: 1;
+}
+
+/* 미세 입자(Grain) 노이즈 레이어 */
+.glitch-overlay::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    /* 아주 촘촘한 붉은 노이즈 입자 */
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="1.8" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)" opacity="0.7"/></svg>');
+    filter: sepia(100%) saturate(1000%) hue-rotate(-50deg); /* 노이즈를 붉게 만듦 */
+    animation: grain-move 0.05s infinite steps(1);
+    display: block;
+}
+
+/* 잘게 찢어지는 붉은 실선 효과 레이어 */
+.glitch-overlay::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: repeating-linear-gradient(
+        transparent 0%,
+        rgba(0, 8, 232, 0.534) 0.5%,
+        transparent 1%
+    );
+    animation: line-glitch 0.1s infinite;
+    display: block;
+}
+
+/* 미세 입자가 미친듯이 떨리는 애니메이션 */
+@keyframes grain-move {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(-1%, 1%); }
+    50% { transform: translate(1%, -1%); }
+    75% { transform: translate(-0.5%, -0.5%); }
+    100% { transform: translate(0, 0); }
+}
+
+/* 가느다란 붉은 선들이 쪼개지는 애니메이션 */
+@keyframes line-glitch {
+    0% { clip-path: inset(10% 0 85% 0); transform: translateX(-5px); }
+    20% { clip-path: inset(80% 0 5% 0); transform: translateX(5px); }
+    40% { clip-path: inset(40% 0 55% 0); transform: translateX(-10px); }
+    60% { clip-path: inset(60% 0 35% 0); transform: translateX(10px); }
+    80% { clip-path: inset(20% 0 75% 0); transform: translateX(-2px); }
+    100% { clip-path: inset(50% 0 45% 0); transform: translateX(0); }
+}
+
+/* 화면 깜빡임 효과 (Flicker) */
+.glitch-active::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(255, 0, 0, 0.1);
+    z-index: 100001;
+    animation: red-flicker 0.04s infinite;
+    pointer-events: none;
+}
+
+@keyframes red-flicker {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes flicker {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
         /* 상단 배너 및 메뉴 */
         .top-banner { margin-top: 60px; width: 600px; z-index: 5; }
         .top-banner img { width: 100%; display: block; image-rendering: pixelated; }
@@ -107,6 +245,12 @@ body {
     /* brightness를 1보다 낮게 설정하여 명도를 낮춥니다 */
     filter: brightness(0.85) contrast(1.1); 
 }
+/* 애니메이션4 전용 스타일 */
+.char-anim-4 {
+    width: 480px !important;
+    right: -420px !important;
+    bottom: -12px !important;
+}
 
 /* 깨진 이미지 아이콘 숨기기 */
 img:not([src]), img[src=""] {
@@ -154,11 +298,12 @@ img:not([src]), img[src=""] {
     </style>
 </head>
 <body>
-
-    <div class="top-banner">
+<body>
+    <div class="glitch-overlay"></div>
+    <div class="blackout-overlay"></div> <div class="custom-cursor"></div>
+       <div class="top-banner">
         <img src="./images/12173.png" alt="Main Banner">
     </div>
-
     <nav class="main-nav">
         <a href="About TeamBadger.html"><img src="./images/text1.png" onmouseover="this.src='./images/text2.png'" onmouseout="this.src='./images/text1.png'"></a>
         <a href="Story.html"><img src="./images/text3.png" onmouseover="this.src='./images/text4.png'" onmouseout="this.src='./images/text3.png'"></a>
@@ -185,9 +330,15 @@ img:not([src]), img[src=""] {
             -Alice has been added to the main website screen<br>
                        -Number of Visitor records added
         </div>
+         <div class="update-item">
+            <strong>2026.02.06</strong>
+            -Added custom mouse cursor<br>
+                       -Added an Easter Egg
+
+        </div>
 
         <div style="text-align: center; color: #999; font-size: 12px;">
-            UPDATE SOON !
+            <br>UPDATE SOON !
         </div>
     </div>
 
@@ -204,17 +355,28 @@ img:not([src]), img[src=""] {
             <div style="color: black; padding: 0 20px; font-size: 18px; font-weight: 900;" id="visit-count">0000</div>
         </div>
     </div>
+    
 
 <script>
+    // 1. 전역 변수 설정
     let typingInterval;
     const bubble = document.getElementById('speechBubble');
     const imgElement = document.getElementById('charImg');
     const container = document.getElementById('charContainer');
+    const glitchOverlay = document.querySelector('.glitch-overlay');
+    
+    const randomMessages = ["welcome!", "I love cats! Do you love cats,too?", "Akira! Alice likes Akira!", "I made this cat doll! Isn't it lovely!?"];
+    
+    // 캐릭터 초기 위치 저장 (복구용)
+    const originalChar = {
+        src: "./images/애니메이션2.gif",
+        right: "-460px",
+        bottom: "-48px",
+        width: "500px"
+    };
 
-    const randomMessages = 
-    ["welcome!","I love cats! Do you love cats,too?","Akira! Alice likes Akira!","I made this cat doll! Isn't it lovely!?"]
-
-    function typeWriter(text, element) {
+    // 2. 타이핑 효과 함수
+    function typeWriter(text, element, callback) {
         let i = 0;
         element.innerText = "";
         element.classList.remove('done');
@@ -226,68 +388,190 @@ img:not([src]), img[src=""] {
             } else {
                 clearInterval(typingInterval);
                 element.classList.add('done');
+                if (callback) callback(); // 대사 종료 후 실행할 동작이 있다면 실행
             }
         }, 50);
     }
 
-    function startInteraction() {
-    container.style.opacity = "0";
+// 3. 캐릭터 상호작용 (클릭 시)
+function startInteraction() {
+    if (container.classList.contains('is-active')) return;
 
+    container.style.opacity = "0"; 
     setTimeout(() => {
-        imgElement.src = "./images/애니메이션3.gif";
+        // [1] 랜덤 대사 선택 (사라졌던 부분 복구)
+        const message = randomMessages[Math.floor(Math.random() * randomMessages.length)];
         
-        // [위치 수정 코드 추가] 
-        // 애니메이션3일 때만 위치를 살짝 옮기고 싶다면 아래 수치를 조절하세요.
-        container.style.right = "-450px"; // 기존 -460px에서 변경
-        container.style.bottom = "-14px"; // 기존 -48px에서 변경
-        container.style.width = "490px";
+        // [2] 이미지 설정 (여기서 애니메이션3 또는 4를 선택)
+        // 만약 특정 조건에서만 4가 나오게 하려면 수정 가능합니다.
+        const targetImg = "./images/애니메이션3.gif"; 
+        imgElement.src = targetImg;
+
+        // [3] 애니메이션4일 때만 사이즈와 위치 변경
+        if (targetImg.includes("애니메이션3")) {
+            container.style.width = "480px";   // 애니메이션4 전용 너비
+            container.style.right = "-440px";  // 애니메이션4 전용 가로 위치
+            container.style.bottom = "-12px";    // 애니메이션4 전용 세로 위치
+        } else {
+            // 애니메이션3 등 그 외에는 기존 사이즈 유지
+            container.style.width = originalChar.width;
+            container.style.right = originalChar.right;
+            container.style.bottom = originalChar.bottom;
+        }
 
         container.style.opacity = "1";
         container.classList.add('is-active'); 
-
-        const message = randomMessages[Math.floor(Math.random() * randomMessages.length)];
+        
+        // [4] 말풍선 띄우고 랜덤 대사 출력
         bubble.style.display = 'block';
         typeWriter(message, bubble);
+        
     }, 500);
-
+    
+    // 4.5초 후 원래대로 복구
     setTimeout(resetToNormal, 4500);
 }
 
 function resetToNormal() {
     bubble.style.display = 'none';
     container.style.opacity = "0";
-
     setTimeout(() => {
-        imgElement.src = "./images/애니메이션2.gif";
+        imgElement.src = originalChar.src; // 애니메이션2로 복구
         
-        // [원래 위치로 복구]
-        container.style.right = "-460px"; 
-        container.style.bottom = "-48px";
-
+        // 위치와 크기도 원래대로 복구
+        container.style.right = originalChar.right; 
+        container.style.bottom = originalChar.bottom;
+        container.style.width = originalChar.width;
+        
         container.style.opacity = "1";
         container.classList.remove('is-active'); 
     }, 500);
 }
-// 페이지 로드 시 실행
-    window.onload = function() {
-        // 1. 기존 카운트 가져오기 (없으면 0)
-        let count = localStorage.getItem('visitCount');
+    // 4. 파티클 로직 (원형 확산)
+    function createCircleParticles(x, y) {
+        const particleCount = 16;
+        const radius = 60;
+
+        for (let i = 0; i < particleCount; i++) {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            document.body.appendChild(p);
+
+            p.style.left = x + 'px';
+            p.style.top = y + 'px';
+
+            const angle = (i / particleCount) * Math.PI * 2;
+            const destX = Math.cos(angle) * radius;
+            const destY = Math.sin(angle) * radius;
+
+            requestAnimationFrame(() => {
+                p.style.transform = `translate(calc(-50% + ${destX}px), calc(-50% + ${destY}px)) scale(0.1)`;
+                p.style.opacity = '0';
+            });
+
+            setTimeout(() => { p.remove(); }, 600);
+        }
+    }
+
+    // 5. 이스터에그 로직 (새로고침 시 확률 발생)
+    function triggerEasterEgg() {
+    const charImg = document.getElementById('charImg');
+    const charContainer = document.getElementById('charContainer');
+    const bubble = document.getElementById('speechBubble');
+    const glitchOverlay = document.querySelector('.glitch-overlay');
+
+    // [중요] 이스터에그 중에는 캐릭터 클릭(상호작용) 차단
+    charContainer.style.pointerEvents = "none";
+    charContainer.classList.add('is-active'); // 클릭 방지 상태 부여
+
+    // 1. 글리치 효과 시작
+    document.body.classList.add('glitch-active');
+    if (glitchOverlay) glitchOverlay.style.opacity = '1';
+
+    // 2. 캐릭터 이미지 변경 (이스터에그용 애니메이션5)
+    charContainer.style.opacity = "0";
+    setTimeout(() => {
+        imgElement.src = "./images/애니메이션5.gif"; 
+
+        /* [수정] 애니메이션5 전용 좌표와 크기 설정 */
+        charContainer.style.width = "480px";   // 원하는 너비로 수정
+        charContainer.style.right = "-440px";  // 원하는 가로 위치로 수정
+        charContainer.style.bottom = "-18px";  // 원하는 세로 위치로 수정
+        charContainer.style.opacity = "1";
         
-        if (count === null) {
-            count = 1; // 처음 방문 시
-        } else {
-            count = parseInt(count) + 1; // 재방문 시 +1
+        // [추가] 이스터에그 전용 랜덤 대사 리스트
+const easterEggMessages = [
+    "Where is my cats?",
+    "「      」 is don't want to go back home",
+    "They're 「      」's cats They're 「      」's owner",
+    "「      」 can hear your heart",
+    "Why do animals die so easily?"
+];
+        // [수정] 이스터에그 전용 랜덤 대사 선택
+        const msg = easterEggMessages[Math.floor(Math.random() * easterEggMessages.length)];
+        bubble.style.display = 'block';
+        
+        // 3. 대사 타이핑 시작
+        typeWriter(msg, bubble, () => {
+            setTimeout(() => {
+                // 4. 화면 전체 암전 시작
+                document.body.classList.add('blackout-active');
+
+                setTimeout(() => {
+                    // 글리치 효과 제거 및 상태 원복
+                    document.body.classList.remove('glitch-active');
+                    if (glitchOverlay) glitchOverlay.style.opacity = '0';
+                    
+                    // 캐릭터 원래대로 복구 함수 호출
+                    resetToNormal();
+                    
+                    // [중요] 암전이 끝나면 다시 클릭 가능하게 복구
+                    setTimeout(() => {
+                        charContainer.style.pointerEvents = "auto";
+                    }, 1000);
+
+                    // 6. 암전 해제
+                    setTimeout(() => {
+                        document.body.classList.remove('blackout-active');
+                    }, 1000);
+                }, 2000);
+            }, 1500);
+        });
+    }, 300);
+}
+
+    // 6. 메인 로드 이벤트 (DOMContentLoaded)
+    window.addEventListener('DOMContentLoaded', () => {
+        // 커서 이동
+        const cursor = document.querySelector('.custom-cursor');
+        if (cursor) {
+            document.addEventListener('mousemove', (e) => {
+                requestAnimationFrame(() => {
+                    cursor.style.left = e.clientX + 'px';
+                    cursor.style.top = e.clientY + 'px';
+                });
+            });
         }
 
-        // 2. 새로운 카운트 저장
-        localStorage.setItem('visitCount', count);
+        // 클릭 이벤트 (파티클)
+        document.addEventListener('click', (e) => {
+            createCircleParticles(e.clientX, e.clientY);
+        });
 
-        // 3. 화면에 표시 (4자리 숫자로 포맷팅: 예 0005)
-        const countDisplay = document.getElementById('visit-count');
-        countDisplay.innerText = count.toString().padStart(4, '0');
-    };
+        // 방문자 카운트
+        const visitCountElement = document.getElementById('visit-count');
+        if (visitCountElement) {
+            let count = localStorage.getItem('visitCount') || 0;
+            count = parseInt(count) + 1;
+            localStorage.setItem('visitCount', count);
+            visitCountElement.innerText = count.toString().padStart(4, '0');
+        }
 
-
+        // 확률적 이스터에그 실행 (0.2 = 20% 확률)
+        if (Math.random() < 0.05) {
+            triggerEasterEgg();
+        }
+    });
 </script>
 
     <div class="footer">
